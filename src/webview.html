@@ -1,37 +1,31 @@
+<!-- webview.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Panda Images</title>
-	<style>
-		/* Add custom styles here */
-		.container {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-between;
-			align-items: center;
-			margin: 20px;
-			padding: 20px;
-			background-color: #f5f5f5;
-			border-radius: 10px;
-		}
-		.image {
-			width: 250px;
-			height: 250px;
-			object-fit: cover;
-			margin: 10px;
-			border-radius: 5px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'nonce-random123' 'unsafe-inline';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShowPanda Web View</title>
 </head>
 <body>
-	<div class="container">
-		<img class="image" src="https://www.bing.com/images/search?q=cute+panda+images&amp;form=HDRSC4&amp;first=1">
-		<img class="image" src="https://www.bing.com/images/search?q=cute+panda+images&amp;form=HDRSC4&amp;first=2">
-		<img class="image" src="https://www.bing.com/images/search?q=cute+panda+images&amp;form=HDRSC4&amp;first=3">
-		<img class="image" src="https://www.bing.com/images/search?q=cute+panda+images&amp;form=HDRSC4&amp;first=4">
-		<img class="image" src="https://www.bing.com/images/search?q=cute+panda+images&amp;form=HDRSC4&amp;first=5">
-		<img class="image" src="https://www.bing.com/images/search?q=cute+panda+images&amp;form=HDRSC4&amp;first=6">
-	</div>
+    <!-- Your HTML code for displaying the Getty Images embed goes here -->
+    <div id="gettyImagesEmbedContainer">
+        <a id="gettyImagesEmbedLink" class="gie-single" href="http://www.gettyimages.com/detail/AB26958" target="_blank" style="color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;">Embed from Getty Images</a>
+    </div>
+
+    <script>
+        // In webview.html
+        const vscode = acquireVsCodeApi();
+
+        const embedCode = `
+            <script>
+                window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'HAb8g4rXSaVkDa6zDLECWQ',sig:'_qfksBOcvgJmc2alb2g-oCyoWSQ2M5JM0Y8ASXcvP8E=',w:'508px',h:'337px',items:'AB26958',caption: true ,tld:'com',is360: false })});
+            </script>
+            <script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
+        `;
+
+        // Send the embed code to the extension
+        vscode.postMessage({ type: 'embedCode', data: embedCode });
+    </script>
 </body>
 </html>
