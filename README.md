@@ -4,7 +4,7 @@
 
 ## Features
 
-Shows images of cute pandas when execited, right now it opens a new browser tab to do the same, 
+Shows images of cute pandas when execited, right now it opens a new browser tab to do the same, ok
 
 
 ## Requirements
