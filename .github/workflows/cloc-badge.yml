@@ -24,13 +24,7 @@ jobs:
 
     - name: Run cloc
       run: |
-        cloc --json . > cloc.json
-
-    - name: Extract total lines
-      id: cloc
-      run: |
-        total_lines=$(jq '.SUM.code' cloc.json)
-        echo "lines=$total_lines" >> $GITHUB_OUTPUT
+        cloc --json . > /tmp/cloc_temp.json
 
     - name: Switch to gh-pages branch
       run: |
@@ -38,10 +32,21 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git checkout gh-pages
 
+    - name: Copy cloc.json to gh-pages branch
+      run: |
+        cp /tmp/cloc_temp.json cloc.json
+
     - name: Update badge data
       run: |
-        LINES=${{ steps.cloc.outputs.lines }}
-        echo "{ \"lines\": $LINES }" > cloc.json
+        LINES=$(jq '.SUM.code' cloc.json)
+        cat <<EOF > cloc.json
+        {
+          "schemaVersion": 1,
+          "label": "Total Lines",
+          "message": "$LINES",
+          "color": "blue"
+        }
+        EOF
 
     - name: Commit badge data
       run: |
