@@ -1,6 +1,7 @@
 # ShowPanda README
 
 
+![Total Lines](https://img.shields.io/endpoint?url=https://Nightfury874.github.io/VSCodeExtensionShowingPanda/cloc.json&style=flat&label=Total%20Lines)
 
 ## Features
 
