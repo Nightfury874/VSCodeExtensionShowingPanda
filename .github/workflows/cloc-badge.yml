@@ -1,0 +1,50 @@
+name: Generate CLOC Badge
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Ensure all branches are fetched
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cloc jq
+
+    - name: Run cloc
+      run: |
+        cloc --json . > cloc.json
+
+    - name: Extract total lines
+      id: cloc
+      run: |
+        total_lines=$(jq '.SUM.code' cloc.json)
+        echo "lines=$total_lines" >> $GITHUB_OUTPUT
+
+    - name: Switch to gh-pages branch
+      run: |
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        git checkout gh-pages
+
+    - name: Update badge data
+      run: |
+        LINES=${{ steps.cloc.outputs.lines }}
+        echo "{ \"lines\": $LINES }" > cloc.json
+
+    - name: Commit badge data
+      run: |
+        git add cloc.json
+        git commit -m "Update cloc data" || echo "No changes to commit"
+        git push origin gh-pages
